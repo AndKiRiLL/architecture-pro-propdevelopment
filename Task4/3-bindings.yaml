@@ -1,0 +1,80 @@
+# ============================================
+# ПРИВЯЗКА ПОЛЬЗОВАТЕЛЕЙ К РОЛЯМ
+# ============================================
+
+# 1. devops-user -> cluster-admin (на весь кластер)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: devops-admin
+subjects:
+- kind: ServiceAccount
+  name: devops-user
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+# 2. security-user -> auditor (на весь кластер)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: security-auditor
+subjects:
+- kind: ServiceAccount
+  name: security-user
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: auditor
+  apiGroup: rbac.authorization.k8s.io
+
+# 3. analyst-user -> viewer (на весь кластер)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: analyst-viewer
+subjects:
+- kind: ServiceAccount
+  name: analyst-user
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: viewer
+  apiGroup: rbac.authorization.k8s.io
+
+# 4. developer-user -> developer (в namespace development)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-binding
+  namespace: development
+subjects:
+- kind: ServiceAccount
+  name: developer-user
+  namespace: development
+roleRef:
+  kind: ClusterRole
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+
+# 5. operator-user -> operator (в namespace production)
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: operator-binding
+  namespace: production
+subjects:
+- kind: ServiceAccount
+  name: operator-user
+  namespace: production
+roleRef:
+  kind: ClusterRole
+  name: operator
+  apiGroup: rbac.authorization.k8s.io
