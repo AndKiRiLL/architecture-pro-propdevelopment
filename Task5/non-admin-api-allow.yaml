@@ -1,0 +1,51 @@
+# ============================================
+# Сетевая политика: разрешаем трафик только между связанными парами
+# ============================================
+
+# 1. Разрешить front-end -> back-end-api и обратно
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-to-backend-allow
+spec:
+  podSelector:
+    matchLabels:
+      role: back-end-api
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: front-end
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: front-end
+
+# 2. Разрешить admin-front-end -> admin-back-end-api и обратно
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: admin-frontend-to-admin-backend-allow
+spec:
+  podSelector:
+    matchLabels:
+      role: admin-back-end-api
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: admin-front-end
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: admin-front-end

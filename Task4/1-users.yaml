@@ -1,0 +1,44 @@
+# ============================================
+# СОЗДАНИЕ ПОЛЬЗОВАТЕЛЕЙ ЧЕРЕЗ SERVICEACCOUNT
+# 
+# ============================================
+
+---
+# 1. DevOps инженер
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: devops-user
+  namespace: default
+
+---
+# 2. Разработчик
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: developer-user
+  namespace: development
+
+---
+# 3. Инженер по эксплуатации
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: operator-user
+  namespace: production
+
+---
+# 4. Бизнес-аналитик
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: analyst-user
+  namespace: default
+
+---
+# 5. Специалист по ИБ
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: security-user
+  namespace: default
